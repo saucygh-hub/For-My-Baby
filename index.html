@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#8B5E83">
+    <title>Happy Valentine's Day 💕</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            overflow: hidden;
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+        }
+        
+        /* Welcome Page */
+        .page {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+        }
+        
+        .page.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+        
+        #welcome-page {
+            background: linear-gradient(135deg, #9B7EBD 0%, #8B5E83 50%, #7B4B73 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* Floating Hearts */
+        .heart {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(45deg);
+            animation: float 8s infinite ease-in-out;
+        }
+        
+        .heart::before,
+        .heart::after {
+            content: '';
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+        }
+        
+        .heart::before {
+            top: -15px;
+            left: 0;
+        }
+        
+        .heart::after {
+            top: 0;
+            left: -15px;
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotate(45deg) scale(1);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.7;
+            }
+            50% {
+                transform: translateY(-100vh) rotate(45deg) scale(1.2);
+                opacity: 0.4;
+            }
+            90% {
+                opacity: 0.2;
+            }
+        }
+        
+        .welcome-content {
+            text-align: center;
+            z-index: 10;
+            padding: 20px;
+        }
+        
+        .welcome-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: white;
+            margin-bottom: 30px;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            animation: fadeInDown 1s ease;
+        }
+        
+        /* Toggle Switch */
+        .toggle-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            margin-top: 40px;
+        }
+        
+        .toggle-label {
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+        
+        .toggle-switch {
+            position: relative;
+            width: 80px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 40px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .toggle-switch.active {
+            background: rgba(255, 105, 180, 0.6);
+            border-color: rgba(255, 105, 180, 0.8);
+        }
+        
+        .toggle-slider {
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 30px;
+            height: 30px;
+            background: white;
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .toggle-switch.active .toggle-slider {
+            transform: translateX(40px);
+        }
+        
+        /* Greeting Page */
+        #greeting-page {
+            background: linear-gradient(135deg, #FF69B4 0%, #FF1493 50%, #C71585 100%);
+        }
+        
+        .greeting-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            color: white;
+            text-align: center;
+            padding: 40px;
+            text-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+            animation: scaleIn 1s ease;
+        }
+        
+        /* Menu Page */
+        #menu-page {
+            background: linear-gradient(135deg, #DDA0DD 0%, #BA55D3 50%, #9370DB 100%);
+        }
+        
+        .menu-container {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            padding: 40px;
+            width: 100%;
+            max-width: 400px;
+        }
+        
+        .menu-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: white;
+            text-align: center;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .menu-button {
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 20px;
+            padding: 25px 30px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #8B5E83;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .menu-button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 105, 180, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+        
+        .menu-button:active::before {
+            width: 300px;
+            height: 300px;
+        }
+        
+        .menu-button:active {
+            transform: scale(0.95);
+        }
+        
+        /* Love Letter Page */
+        #letter-page {
+            background: linear-gradient(135deg, #E6E6FA 0%, #D8BFD8 50%, #DDA0DD 100%);
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .letter-container {
+            max-width: 500px;
+            margin: 40px auto;
+            padding: 40px 30px;
+            position: relative;
+        }
+        
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .back-button:active {
+            transform: scale(0.9);
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 30px;
+            padding: 40px 30px;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.6);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
+        }
+        
+        .letter-text {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #4A4A4A;
+            text-align: left;
+            font-weight: 400;
+            animation: fadeIn 1s ease;
+        }
+        
+        .letter-text p {
+            margin-bottom: 20px;
+        }
+        
+        .signature {
+            text-align: right;
+            margin-top: 30px;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            color: #8B5E83;
+            font-style: italic;
+        }
+        
+        /* Slideshow Page */
+        #slideshow-page {
+            background: linear-gradient(135deg, #FFB6C1 0%, #FFC0CB 50%, #FFB6D9 100%);
+        }
+        
+        .slideshow-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+        }
+        
+        .slide {
+            display: none;
+            width: 100%;
+            max-width: 500px;
+            animation: fadeIn 0.8s ease;
+        }
+        
+        .slide.active {
+            display: block;
+        }
+        
+        .slide img {
+            width: 100%;
+            height: auto;
+            max-height: 70vh;
+            object-fit: contain;
+            border-radius: 20px;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
+            border: 3px solid white;
+        }
+        
+        .slide-controls {
+            display: flex;
+            gap: 20px;
+            margin-top: 30px;
+            align-items: center;
+        }
+        
+        .slide-button {
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .slide-button:active {
+            transform: scale(0.9);
+        }
+        
+        .slide-counter {
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            background: rgba(139, 94, 131, 0.7);
+            padding: 10px 20px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+        
+        /* Animations */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        
+        .zoom-out {
+            animation: zoomOut 0.8s ease forwards;
+        }
+        
+        @keyframes zoomOut {
+            from {
+                transform: scale(1);
+                opacity: 1;
+            }
+            to {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+        }
+        
+        .zoom-in {
+            animation: zoomIn 0.8s ease forwards;
+        }
+        
+        @keyframes zoomIn {
+            from {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Welcome Page -->
+    <div class="page active" id="welcome-page">
+        <div class="welcome-content">
+            <h1 class="welcome-title">💕 For Someone Special 💕</h1>
+            <div class="toggle-container">
+                <p class="toggle-label">Ready for a surprise?</p>
+                <div class="toggle-switch" id="toggle">
+                    <div class="toggle-slider"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Greeting Page -->
+    <div class="page" id="greeting-page">
+        <h1 class="greeting-text">Happy Valentine's Day<br>Sweets 💝</h1>
+    </div>
+
+    <!-- Menu Page -->
+    <div class="page" id="menu-page">
+        <div class="menu-container">
+            <h2 class="menu-title">Choose Your Heart 💖</h2>
+            <button class="menu-button" id="letter-btn">
+                <span style="position: relative; z-index: 1;">💌 For My Baby</span>
+            </button>
+            <button class="menu-button" id="slideshow-btn">
+                <span style="position: relative; z-index: 1;">📸 Relive Our Moments</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Love Letter Page -->
+    <div class="page" id="letter-page">
+        <button class="back-button" id="back-from-letter">←</button>
+        <div class="letter-container">
+            <div class="glass-card">
+                <div class="letter-text">
+                    <p>I love you so much Angela. We're outside again ha.</p>
+                    <p>I'm so happy you're still with me. Let's make this moment count. I know you're smiling as you're reading this.</p>
+                    <p><strong>**takes photos of her**</strong></p>
+                    <p>I still love looking into those pretty eyes of yours and looking at your beautiful face. I'm yet to see what you're wearing but I know you'd look good when we go out.</p>
+                    <p>Happy Valentines Day, Sweets. I love you!</p>
+                    <div class="signature">Forever Yours ❤️</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slideshow Page -->
+    <div class="page" id="slideshow-page">
+        <button class="back-button" id="back-from-slideshow">←</button>
+        <div class="slideshow-container">
+            <div class="slide active">
+                <img src="data:image/jpeg;base64,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" alt="Memory 1">
+            </div>
+            <div class="slide">
+                <img src="/mnt/user-data/uploads/D5B1643A-EB35-4700-9959-DC5CF196E20C.jpeg" alt="Memory 2">
+            </div>
+            <div class="slide">
+                <img src="/mnt/user-data/uploads/05A35B77-A34C-4491-9E88-724871C3C82B.jpeg" alt="Memory 3">
+            </div>
+            <div class="slide">
+                <img src="/mnt/user-data/uploads/IMG_2159.jpeg" alt="Memory 4">
+            </div>
+            <div class="slide">
+                <img src="/mnt/user-data/uploads/IMG_8564.jpeg" alt="Memory 5">
+            </div>
+            <div class="slide">
+                <img src="/mnt/user-data/uploads/IMG_7388.jpeg" alt="Memory 6">
+            </div>
+            <div class="slide">
+                <img src="/mnt/user-data/uploads/IMG_4245.jpeg" alt="Memory 7">
+            </div>
+            
+            <div class="slide-controls">
+                <button class="slide-button" id="prev-btn">◀</button>
+                <div class="slide-counter">
+                    <span id="current-slide">1</span> / <span id="total-slides">7</span>
+                </div>
+                <button class="slide-button" id="next-btn">▶</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Create floating hearts
+        function createHearts() {
+            const welcomePage = document.getElementById('welcome-page');
+            for (let i = 0; i < 15; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.animationDelay = Math.random() * 8 + 's';
+                heart.style.animationDuration = (Math.random() * 4 + 6) + 's';
+                welcomePage.appendChild(heart);
+            }
+        }
+        createHearts();
+
+        // Page navigation
+        const pages = {
+            welcome: document.getElementById('welcome-page'),
+            greeting: document.getElementById('greeting-page'),
+            menu: document.getElementById('menu-page'),
+            letter: document.getElementById('letter-page'),
+            slideshow: document.getElementById('slideshow-page')
+        };
+
+        function showPage(pageName) {
+            Object.keys(pages).forEach(key => {
+                pages[key].classList.remove('active');
+            });
+            pages[pageName].classList.add('active');
+        }
+
+        // Toggle switch
+        const toggle = document.getElementById('toggle');
+        toggle.addEventListener('click', function() {
+            if (!this.classList.contains('active')) {
+                this.classList.add('active');
+                
+                // Zoom out animation
+                pages.welcome.classList.add('zoom-out');
+                
+                setTimeout(() => {
+                    showPage('greeting');
+                    pages.greeting.classList.add('zoom-in');
+                    
+                    // Auto transition to menu after 5 seconds
+                    setTimeout(() => {
+                        pages.greeting.classList.add('zoom-out');
+                        setTimeout(() => {
+                            showPage('menu');
+                            pages.menu.classList.add('zoom-in');
+                        }, 800);
+                    }, 5000);
+                }, 800);
+            }
+        });
+
+        // Menu buttons
+        document.getElementById('letter-btn').addEventListener('click', () => {
+            showPage('letter');
+        });
+
+        document.getElementById('slideshow-btn').addEventListener('click', () => {
+            showPage('slideshow');
+        });
+
+        // Back buttons
+        document.getElementById('back-from-letter').addEventListener('click', () => {
+            showPage('menu');
+        });
+
+        document.getElementById('back-from-slideshow').addEventListener('click', () => {
+            showPage('menu');
+        });
+
+        // Slideshow functionality
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        const currentSlideEl = document.getElementById('current-slide');
+        const totalSlidesEl = document.getElementById('total-slides');
+        
+        totalSlidesEl.textContent = totalSlides;
+
+        function showSlide(index) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            slides[index].classList.add('active');
+            currentSlideEl.textContent = index + 1;
+        }
+
+        document.getElementById('prev-btn').addEventListener('click', () => {
+            currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+            showSlide(currentSlide);
+        });
+
+        document.getElementById('next-btn').addEventListener('click', () => {
+            currentSlide = (currentSlide + 1) % totalSlides;
+            showSlide(currentSlide);
+        });
+
+        // Swipe gestures for slideshow
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        document.getElementById('slideshow-page').addEventListener('touchstart', e => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        document.getElementById('slideshow-page').addEventListener('touchend', e => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            if (touchEndX < touchStartX - 50) {
+                // Swipe left - next
+                currentSlide = (currentSlide + 1) % totalSlides;
+                showSlide(currentSlide);
+            }
+            if (touchEndX > touchStartX + 50) {
+                // Swipe right - previous
+                currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+                showSlide(currentSlide);
+            }
+        }
+
+        // Prevent pull-to-refresh
+        document.body.addEventListener('touchmove', (e) => {
+            if (e.touches.length > 1) {
+                e.preventDefault();
+            }
+        }, { passive: false });
+    </script>
+</body>
+</html>
